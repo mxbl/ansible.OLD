@@ -1,0 +1,28 @@
+- hosts: localhost
+  vars:
+    src_key:  "./.ssh/id_rsa"
+    dest_key: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+  pre_tasks:
+    - name: Update apt cache
+      become: true
+      apt:
+        force_apt_get: true
+        update_cache:  true
+      tags:
+        - core
+        - ssh
+        - nvim
+        - zsh
+        - dotfiles
+        - tor
+        - docker
+        - hacking
+  tasks:
+    - include: tasks/ssh.yml
+    - include: tasks/core.yml
+    - include: tasks/zsh.yml
+    - include: tasks/nvim.yml
+    - include: tasks/docker.yml
+    - include: tasks/tor.yml
+    - include: tasks/hacking.yml
+    - include: tasks/dotfiles.yml

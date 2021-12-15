@@ -1,0 +1,54 @@
+- name: Remove old Docker versions
+  become: true
+  apt:
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+  tags:
+    - docker
+
+- name: Add Dockers offical GPG key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  tags:
+    - docker
+
+- name: Setup Docker stable repository
+  become: true
+  ansible.builtin.template:
+    src:   docker.j2
+    dest:  /etc/apt/sources.list.d/docker.list
+    owner: root
+    group: root
+  tags:
+    - docker
+
+- name: Update Cache
+  become: true
+  apt:
+    update_cache: true
+  tags:
+    - docker
+
+- name: Install the latest version of docker engine
+  become: true
+  apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: latest
+  tags:
+    - docker
+
+- name: Add USER to docker group
+  become: true
+  shell: /sbin/usermod -aG docker {{ ansible_env.USER }}
+  tags:
+    - docker

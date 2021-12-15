@@ -1,0 +1,20 @@
+- name: Install tor and obfs4proxy
+  become: true
+  apt:
+    pkg:
+      - tor
+      - obfs4proxy
+    state: latest
+    update_cache: true
+  tags:
+    - tor
+
+- name: Setup Tor config file
+  become: true
+  ansible.builtin.template:
+    src:   torrc.j2
+    dest:  /etc/tor/torrc
+    owner: root
+    group: root
+  tags:
+    - tor

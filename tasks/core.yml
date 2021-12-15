@@ -1,0 +1,10 @@
+- name: Install core requirements
+  become: true
+  apt:
+    pkg:
+      - curl
+      - git
+      - vim
+      - fzf
+  tags:
+    - core

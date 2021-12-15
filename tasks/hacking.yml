@@ -1,0 +1,9 @@
+- name: Install some hacking tools
+  become: true
+  apt:
+    pkg:
+      - macchanger
+    state: latest
+  tags:
+    - hacking
+    - core

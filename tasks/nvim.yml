@@ -1,0 +1,65 @@
+- name: Remove neovim
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/neovim"
+    state: absent
+  tags:
+    - nvim
+
+- name: Clone neovim
+  ansible.builtin.git:
+    repo: 'https://github.com/neovim/neovim.git'
+    dest: "{{ ansible_env.HOME }}/neovim"
+  tags:
+    - nvim
+
+- name: Install build requirements for neovim
+  become: true
+  apt:
+    pkg:
+      - ninja-build
+      - gettext
+      - libtool
+      - libtool-bin
+      - autoconf
+      - automake
+      - cmake
+      - g++
+      - pkg-config
+      - unzip
+      - curl
+      - doxygen
+    state: latest
+    update_cache: true
+  tags:
+    - nvim
+
+- name: Build neovim
+  shell: "cd {{ ansible_env.HOME }}/neovim && make -j 20"
+  tags:
+    - nvim
+
+- name: Install neovim
+  become: true
+  shell: "cd {{ ansible_env.HOME }}/neovim && make install"
+  tags:
+    - nvim
+
+- name: Neovim Plugin Development 1
+  become: true
+  apt: name=luarocks
+  tags:
+    - nvim
+
+- name: Neovim Plugin Development 2 luachecks
+  become: true
+  shell: luarocks install luacheck
+  tags:
+    - nvim
+
+- name: install Vim-Plug
+  get_url:
+    url:  "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    dest: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
+  tags:
+    - nvim
+    - dotfiles

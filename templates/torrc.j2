@@ -1,0 +1,26 @@
+# { ansible_managed }
+BridgeRelay 1
+
+# This port must be externally reachable
+# Avoid port 9001 because it's commonly associated with tor and censors may
+# be scanning the internet fro this port.
+ORPort 7001
+
+ServerTransportPlugin obfs4 exec /usr/bin/obfs4proxy
+
+# This port must be externally reachable and must be different from the one
+# specified for ORPort. Avoid port 9001 because it's commonly associated with
+# tor and censors may be scanning the internet for this port.
+ServerTransportListenAddr obfs4 0.0.0.0:7002
+
+# Local communication port between tor and obfs4. Always set this to "auto".
+# "Ext" means "extended", not "external". Don't try to set a specific port
+# number, nor listen to 0.0.0.0
+ExtORPort auto
+
+# Set email address for contact if there is something wrong with the bridge.
+# Optional but encouraged.
+#ContactInfo emailAddress
+
+# Pick a nickname that you like for your bridge. Optional.
+#Nickname bridgeName
