@@ -10,13 +10,6 @@
         update_cache:  true
       tags:
         - core
-        - ssh
-        - nvim
-        - zsh
-        - dotfiles
-        - tor
-        - docker
-        - hacking
   tasks:
     - include: tasks/ssh.yml
     - include: tasks/core.yml
@@ -26,3 +19,4 @@
     - include: tasks/tor.yml
     - include: tasks/hacking.yml
     - include: tasks/dotfiles.yml
+    - include: tasks/node.yml

@@ -1,0 +1,9 @@
+- name: Install nodejs and npm
+  become: true
+  apt:
+    pkg:
+      - nodejs
+      - npm
+  tags:
+    - node
+    - nvim
