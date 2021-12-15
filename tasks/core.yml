@@ -2,9 +2,11 @@
   become: true
   apt:
     pkg:
+      - man-db
       - curl
       - git
       - vim
       - fzf
+      - tmux
   tags:
     - core
