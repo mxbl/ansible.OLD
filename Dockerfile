@@ -30,6 +30,7 @@ RUN chown mx:mx -R .
 
 # Setup environment variables
 ENV USER=mx
+ENV TERM=screen-256color
 
 USER mx
 CMD bash
