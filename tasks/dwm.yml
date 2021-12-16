@@ -22,6 +22,17 @@
     - X
     - dwm
 
+- name: dwm - Install dwm dependencies
+  become: true
+  apt:
+    pkg:
+      - libx11-dev
+      - libxft-dev
+      - libxinerama-dev
+  tags:
+    - X
+    - dwm
+
 - name: dwm - Build
   shell: "cd {{ ansible_env.HOME }}/dwm-6.2 && make"
   tags:
