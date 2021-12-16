@@ -1,8 +1,15 @@
-- name: X - Install desktop programs
+- name: X - Install desktop packages
   become: true
   apt:
     pkg:
       - rxvt-unicode
       - dmenu
+  tags:
+    - X
+
+- name: X - Install monaco font
+  copy:
+    src: monaco.ttf
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts"
   tags:
     - X
