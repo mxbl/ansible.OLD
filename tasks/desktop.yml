@@ -7,6 +7,13 @@
   tags:
     - X
 
+- name: X - Create fonts directory
+  file:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts/"
+    state: directory
+  tags:
+    - X
+
 - name: X - Install monaco font
   copy:
     src: monaco.ttf
