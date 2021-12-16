@@ -4,8 +4,6 @@
     mode: 0700
     state: directory
   tags:
-    - core
-    - dotfiles
     - ssh
 
 - name: Install ssh key
@@ -14,8 +12,6 @@
     dest: "{{ dest_key }}"
     mode: 0600
   tags:
-    - core
-    - dotfiles
     - ssh
 
 - name: Install ssh key public
@@ -24,8 +20,6 @@
     dest: "{{ dest_key }}.pub"
     mode: 0644
   tags:
-    - core
-    - dotfiles
     - ssh
 
 - name: Set authorized key
@@ -34,7 +28,4 @@
     state: present
     key:  "{{ lookup('file', './.ssh/id_rsa.pub') }}"
   tags:
-    - core
-    - dotfiles
     - ssh
-
