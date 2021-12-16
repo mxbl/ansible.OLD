@@ -1,5 +1,0 @@
-- name: Install Stow
-  apt: name=stow
-  tags:
-    - stow
-    - dotfiles
