@@ -1,4 +1,4 @@
-- name: dwm: Download
+- name: dwm - Download
   get_url:
     url: https://dl.suckless.org/dwm/dwm-6.2.tar.gz
     dest: "{{ ansible_env.HOME }}"
@@ -6,7 +6,7 @@
     - X
     - dwm
 
-- name: dwm: Extract
+- name: dwm - Extract
   ansible.builtin.unarchive:
     src: "{{ ansible_env.HOME }}/dwm-6.2.tar.gz"
     dest: "{{ ansible_env.HOME }}"
@@ -14,7 +14,7 @@
     - X
     - dwm
 
-- name: dwm: config.h
+- name: dwm - config.h
   copy:
     src: config.h
     dest: "{{ ansible_env.HOME }}/dwm-6.2"
@@ -22,7 +22,7 @@
     - X
     - dwm
 
-- name: dwm: dwm.desktop
+- name: dwm - dwm.desktop
   become: true
   copy:
     src: dwm.desktop
@@ -31,7 +31,7 @@
     - X
     - dwm
 
-- name: dmw: Cleanup
+- name: dmw - Cleanup
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/dwm-6.2.tar.gz"
     state: absent
