@@ -22,6 +22,19 @@
     - X
     - dwm
 
+- name: dwm - Build
+  shell: "cd {{ ansible_env.HOME }}/dwm-6.2 && make"
+  tags:
+    - X
+    - dwm
+
+- name: dwm - Install
+  become: true
+  shell: "cd {{ ansible_env.HOME }}/dwm-6.2 && make install"
+  tags:
+    - X
+    - dwm
+
 - name: dwm - dwm.desktop
   become: true
   copy:
