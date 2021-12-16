@@ -4,6 +4,9 @@
     pkg:
       - rxvt-unicode
       - dmenu
+      - feh
+      - scrot
+      - xclip
   tags:
     - X
 
