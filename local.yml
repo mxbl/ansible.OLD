@@ -22,3 +22,4 @@
     - include: tasks/dotfiles.yml
     - include: tasks/node.yml
     - include: tasks/dwm.yml
+    - include: tasks/desktop.yml

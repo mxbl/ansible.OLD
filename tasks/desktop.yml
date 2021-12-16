@@ -1,0 +1,8 @@
+- name: X - Install desktop programs
+  become: true
+  apt:
+    pkg:
+      - rxvt-unicode
+      - dmenu
+  tags:
+    - X
