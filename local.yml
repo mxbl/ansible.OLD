@@ -21,3 +21,4 @@
     - include: tasks/hacking.yml
     - include: tasks/dotfiles.yml
     - include: tasks/node.yml
+    - include: tasks/dwm.yml
