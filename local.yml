@@ -2,6 +2,7 @@
   vars:
     src_key:  "./.ssh/id_rsa"
     dest_key: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    ansible_remote_tmp: "/tmp"
   pre_tasks:
     - name: Update apt cache
       become: true
