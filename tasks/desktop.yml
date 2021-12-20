@@ -22,4 +22,38 @@
     src: monaco.ttf
     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
   tags:
+    - fonts
+    - X
+
+- name: X - Get jetbrains
+  get_url:
+    url: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
+    dest: "{{ ansible_env.HOME }}/Downloads"
+  tags:
+    - fonts
+    - X
+
+- name: X - Get/Extract jetbrains
+  ansible.builtin.unarchive:
+    src: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
+    dest: "{{ ansible_env.HOME }}/Downloads"
+    remote_src: yes
+  tags:
+    - fonts
+    - X
+
+- name: X - Install jetbrains
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+  with_fileglob:
+    - "{{ ansible_env.HOME }}/Downloads/fonts/ttf/*"
+  tags:
+    - fonts
+    - X
+
+- name: X - Refresh font cache
+  shell: fc-cache
+  tags:
+    - fonts
     - X
