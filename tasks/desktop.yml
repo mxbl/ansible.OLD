@@ -7,17 +7,18 @@
       - feh
       - scrot
       - xclip
+      - fish
   tags:
     - X
 
-- name: X - Create fonts directory
+- name: X/fonts - Create fonts directory
   file:
     path: "{{ ansible_env.HOME }}/.local/share/fonts/"
     state: directory
   tags:
     - X
 
-- name: X - Install monaco font
+- name: X/fonts - Install monaco font
   copy:
     src: monaco.ttf
     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
@@ -25,7 +26,7 @@
     - fonts
     - X
 
-- name: X - Get jetbrains
+- name: X/fonts - Get jetbrains
   get_url:
     url: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
     dest: "{{ ansible_env.HOME }}/Downloads"
@@ -33,7 +34,7 @@
     - fonts
     - X
 
-- name: X - Get/Extract jetbrains
+- name: X/fonts - Get/Extract jetbrains
   ansible.builtin.unarchive:
     src: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
     dest: "{{ ansible_env.HOME }}/Downloads"
@@ -42,7 +43,7 @@
     - fonts
     - X
 
-- name: X - Install jetbrains
+- name: X/fonts - Install jetbrains
   copy:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
@@ -52,8 +53,29 @@
     - fonts
     - X
 
-- name: X - Refresh font cache
+- name: X/fonts - Refresh font cache
   shell: fc-cache
   tags:
     - fonts
+    - X
+
+- name: X/Alacritty - Get alacritty
+  ansible.builtin.git:
+    repo: https://github.com/alacritty/alacritty.git
+    dest: "{{ ansible_env.HOME }}/alacritty"
+  tags:
+    - alacritty
+    - X
+
+- name: X/Alacritty - Cargo build
+  shell: "cd {{ ansible_env.HOME }}/alacritty && cargo build --release"
+  tags:
+    - alacritty
+    - X
+
+- name: X/Alacritty - Install
+  become: true
+  shell: "cp {{ ansible_env.HOME }}/alacritty/target/release/alacritty"
+  tags:
+    - alacritty
     - X
