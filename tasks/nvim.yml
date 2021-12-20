@@ -50,7 +50,7 @@
   tags:
     - nvim
 
-- name: Neovim Plugin Development 2 luachecks
+- name: Neovim Plugin Development 2 luacheck
   become: true
   shell: luarocks install luacheck
   tags:
@@ -69,4 +69,3 @@
     dest: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
   tags:
     - nvim
-    - dotfiles
