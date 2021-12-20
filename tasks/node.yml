@@ -1,9 +1,25 @@
-- name: Install nodejs and npm
+- name: Node - Install nodejs and npm
   become: true
   apt:
     pkg:
       - nodejs
       - npm
+  tags:
+    - node
+    - nvim
+
+- name: Node - Install N
+  become: true
+  npm:
+    name: n
+    global: yes
+  tags:
+    - node
+    - nvim
+
+- name: Node - Install correct version of Node
+  become: true
+  shell: n 14
   tags:
     - node
     - nvim
