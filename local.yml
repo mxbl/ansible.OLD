@@ -12,6 +12,7 @@
       tags:
         - core
   tasks:
+    - include: tasks/root.yml
     - include: tasks/ssh.yml
     - include: tasks/core.yml
     - include: tasks/zsh.yml
