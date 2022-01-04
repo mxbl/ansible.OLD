@@ -36,9 +36,6 @@ hascmd() {
 #{{{ environment for external tools
 ################################################################################
 
-# exit shell after some period of inactivity
-export TMOUT=600
-
 [ -r /net/adm/bin ]        && PATH="$PATH:/net/adm/bin"
 [ -r /net/adm/scripts ]    && PATH="$PATH:/net/adm/scripts"
 [ -r /usr/site-local/bin ] && PATH="$PATH:/usr/site-local/bin"
