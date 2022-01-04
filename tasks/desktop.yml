@@ -16,20 +16,14 @@
     path: "{{ ansible_env.HOME }}/.local/share/fonts/"
     state: directory
   tags:
+    - fonts
     - X
 
 - name: X/fonts - Install monaco font
   copy:
     src: monaco.ttf
     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-  tags:
-    - fonts
-    - X
-
-- name: X/fonts - Get jetbrains
-  get_url:
-    url: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
-    dest: "{{ ansible_env.HOME }}/Downloads"
+    force: no
   tags:
     - fonts
     - X
@@ -47,6 +41,7 @@
   copy:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+    force: no
   with_fileglob:
     - "{{ ansible_env.HOME }}/Downloads/fonts/ttf/*"
   tags:
@@ -58,6 +53,24 @@
   tags:
     - fonts
     - X
+
+- name: X/Alacritty - Install build requirements
+  become: true
+  apt:
+    pkg:
+      - cmake
+      - pkg-config
+      - libfreetype6-dev
+      - libfontconfig1-dev
+      - libxcb-xfixes0-dev
+      - libxkbcommon-dev
+      - python3
+    state: latest
+    update_cache: true
+    tags:
+      - alacritty
+      - X
+
 
 - name: X/Alacritty - Get alacritty
   ansible.builtin.git:
@@ -75,7 +88,10 @@
 
 - name: X/Alacritty - Install
   become: true
-  shell: "cp {{ ansible_env.HOME }}/alacritty/target/release/alacritty"
+  copy:
+    src: "{{ ansible_env.HOME }}/alacritty/target/release/alacritty"
+    dest: "/usr/local/bin"
+    mode: '0755'
   tags:
     - alacritty
     - X
