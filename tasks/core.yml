@@ -10,5 +10,6 @@
       - zsh
       - tmux
       - ripgrep
+      - htop
   tags:
     - core
