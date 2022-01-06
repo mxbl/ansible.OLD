@@ -7,6 +7,9 @@
       - git
       - vim
       - fzf
+      - zsh
       - tmux
+      - ripgrep
+      - htop
   tags:
     - core

@@ -23,7 +23,7 @@
     - dwm
 
 - name: dwm - Patch dwm for no border on one maximized window
-  shell: patch "{{ ansible_env.HOME }}/dwm-6.2/dwm.c" noborder.diff
+  shell: "patch {{ ansible_env.HOME }}/dwm-6.2/dwm.c ./files/noborder.diff"
   tags:
     - X
     - dwm

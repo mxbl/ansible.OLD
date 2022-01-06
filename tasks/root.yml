@@ -1,0 +1,11 @@
+- name: root - copy zshrc
+  become: true
+  copy: src=zshrc dest=/root/.zshrc owner=root group=root mode=0644
+  tags:
+    - root
+
+- name: root - chsh zsh
+  become: true
+  user: name=root shell=/usr/bin/zsh
+  tags:
+    - root
