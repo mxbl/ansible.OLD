@@ -1,0 +1,39 @@
+- name: Cherrytree - install dependencies
+  become: true
+  apt:
+    pkg:
+      - build-essential
+      - cmake
+      - ninja-build
+      - libgtkmm-3.0-dev
+      - libgtksourceviewmm-3.0-dev
+      - libxml++2.6-dev
+      - libsqlite3-dev
+      - gettext
+      - libgspell-1-dev
+      - libcurl4-openssl-dev
+      - libuchardet-dev
+    state: latest
+    update_cache: true
+  tags:
+    - cherrytree
+
+- name: Cherrytree - Clone from github
+  ansible.builtin.git:
+    repo: 'https://github.com/giuspen/cherrytree.git'
+    dest: "/tmp/cherrytree"
+    recursive: yes
+    update: yes
+  tags:
+    - cherrytree
+
+- name: Cherrytree - execute ./build.sh
+  shell: "cd /tmp/cherrytree && ./build.sh"
+  tags:
+    - cherrytree
+
+- name: Cherrytree - move to /usr/local/bin
+  become: true
+  shell: "cp /tmp/cherrytree/build/cherrytree /usr/local/bin"
+  tags:
+    - cherrytree
