@@ -48,6 +48,7 @@
   become: true
   apt:
     pkg:
+      - lua5.2
       - luarocks
       - liblua5.2-dev
   tags:
