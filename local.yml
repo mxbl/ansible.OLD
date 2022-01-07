@@ -25,3 +25,4 @@
     - include: tasks/dwm.yml
     - include: tasks/desktop.yml
     - include: tasks/cherrytree.yml
+    - include: tasks/ergodox.yml
