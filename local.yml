@@ -24,3 +24,4 @@
     - include: tasks/node.yml
     - include: tasks/dwm.yml
     - include: tasks/desktop.yml
+    - include: tasks/fish.yml

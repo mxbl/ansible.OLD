@@ -1,0 +1,26 @@
+- name: Fish - Setup fish apt sources
+  become: true
+  copy: src=fish.list dest=/etc/apt/sources.list.d owner=root group=root mode=0644
+  tags:
+    - fish
+
+- name: Fish - Add GPG key for fish release 3
+  become: true
+  ansible.builtin.apt_key:
+    url: https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key
+    state: present
+  tags:
+    - fish
+
+- name: Fish - Update Cache
+  become: true
+  apt:
+    update_cache: true
+  tags:
+    - fish
+
+- name: Fish - Install fish
+  become: true
+  apt: name=fish state=latest
+  tags:
+    - fish
