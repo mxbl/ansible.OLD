@@ -46,7 +46,11 @@
 
 - name: Neovim Plugin Development 1
   become: true
-  apt: name=luarocks
+  apt:
+    pkg:
+      - lua5.2
+      - luarocks
+      - liblua5.2-dev
   tags:
     - nvim
 

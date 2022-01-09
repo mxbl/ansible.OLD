@@ -1,0 +1,15 @@
+- name: Ergodox - Setup udev rule file
+  become: true
+  copy:
+    src: 50-wally.rules
+    dest: /etc/udev/rules.d
+  tags:
+    - ergodox
+
+- name: Ergodox - Get wally
+  get_url:
+    url: https://configure.ergodox-ez.com/wally/linux
+    dest: "{{ ansible_env.HOME }}/bin/wally"
+    mode: "0755"
+  tags:
+    - ergodox

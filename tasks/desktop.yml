@@ -66,9 +66,9 @@
       - python3
     state: latest
     update_cache: true
-    tags:
-      - alacritty
-      - X
+  tags:
+    - alacritty
+    - X
 
 
 - name: X/Alacritty - Get alacritty
