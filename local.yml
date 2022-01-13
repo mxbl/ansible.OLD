@@ -27,5 +27,4 @@
     - include: tasks/fish.yml
     - include: tasks/cherrytree.yml
     - include: tasks/ergodox.yml
-    - include: tasks/lxd.yml
     - include: tasks/telegram.yml
