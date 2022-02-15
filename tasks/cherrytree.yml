@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Cherrytree - install dependencies
   become: true
   apt:

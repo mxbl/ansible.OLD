@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Install some hacking tools
   become: true
   apt:

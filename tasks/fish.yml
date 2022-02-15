@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Fish - Setup fish apt sources
   become: true
   copy: src=fish.list dest=/etc/apt/sources.list.d owner=root group=root mode=0644

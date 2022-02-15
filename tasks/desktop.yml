@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: X - Install desktop packages
   become: true
   apt:
