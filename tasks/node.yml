@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Node - Install nodejs and npm
   become: true
   apt:

@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Remove old Docker versions
   become: true
   apt:

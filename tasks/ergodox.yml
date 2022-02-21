@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Ergodox - Setup udev rule file
   become: true
   copy:

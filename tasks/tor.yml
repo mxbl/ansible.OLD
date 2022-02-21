@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Install tor and obfs4proxy
   become: true
   apt:
