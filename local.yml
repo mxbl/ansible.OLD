@@ -33,3 +33,4 @@
     - include: tasks/ergodox.yml
     - include: tasks/telegram.yml
     - include: tasks/mail.yml
+    - include: tasks/brave.yml
