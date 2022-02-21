@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: telegram - Download desktop app
   get_url:
     url: https://telegram.org/dl/desktop/linux

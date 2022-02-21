@@ -1,3 +1,5 @@
+# vim:ft=ansible
+---
 - name: Ensure .ssh directory exists
   file:
     dest: "{{ dest_key | dirname }}"
