@@ -1,6 +1,7 @@
 # vim:ft=ansible
 ---
 - name: Install mutt
+  become: true
   apt:
     pkg:
       - mutt
