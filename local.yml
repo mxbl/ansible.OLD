@@ -1,6 +1,7 @@
 # vim:ft=ansible
 ---
 - hosts: localhost
+  gather_facts: true
   vars:
     src_key:  "./.ssh/id_rsa"
     dest_key: "{{ ansible_env.HOME }}/.ssh/id_rsa"

@@ -2,14 +2,18 @@
 ---
 - name: Fish - Setup fish apt sources
   become: true
-  copy: src=fish.list dest=/etc/apt/sources.list.d owner=root group=root mode=0644
+  ansible.builtin.template:
+    src:   fish.j2
+    dest:  /etc/apt/sources.list.d/fish.list
+    owner: root
+    group: root
   tags:
     - fish
 
 - name: Fish - Add GPG key for fish release 3
   become: true
   ansible.builtin.apt_key:
-    url: https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key
+    url: https://download.opensuse.org/repositories/shells:fish:release:3/Debian_{{ ansible_distribution_major_version }}/Release.key
     state: present
   tags:
     - fish
