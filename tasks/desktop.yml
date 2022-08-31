@@ -12,10 +12,13 @@
   tags:
     - X
 
-- name: X/fonts - Create fonts directory
+- name: X/fonts - Create required directories
   file:
-    path: "{{ ansible_env.HOME }}/.local/share/fonts/"
+    path: "{{ item }}"
     state: directory
+  loop:
+    - "{{ ansible_env.HOME }}/.local/share/fonts/"
+    - "{{ ansible_env.HOME }}/Downloads"
   tags:
     - fonts
     - X
