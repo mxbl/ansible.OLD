@@ -11,6 +11,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/neovim/neovim.git'
     dest: "{{ ansible_env.HOME }}/neovim"
+    #version: release-0.8
   tags:
     - nvim
 

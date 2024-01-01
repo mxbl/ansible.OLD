@@ -1,35 +1,38 @@
-# vim:ft=ansible
 ---
 - hosts: localhost
   gather_facts: true
   vars:
-    src_key:  "./.ssh/id_rsa"
+    src_key: "./.ssh/id_rsa"
     dest_key: "{{ ansible_env.HOME }}/.ssh/id_rsa"
     ansible_remote_tmp: "/tmp"
     build_dir: "/tmp"
-    git_dir:   "{{ ansible_env.HOME }}/git"
+    git_dir: "{{ ansible_env.HOME }}/git"
   pre_tasks:
     - name: Update apt cache
       become: true
-      apt:
+      ansible.builtin.apt:
         force_apt_get: true
-        update_cache:  true
+        update_cache: true
       tags:
         - core
   tasks:
-    - include: tasks/root.yml
+    # TAGS: root
+    - name: Setup root account
+      ansible.builtin.include_tasks: tasks/root.yml
+
     - include: tasks/ssh.yml
     - include: tasks/core.yml
     - include: tasks/zsh.yml
+    - include: tasks/fish.yml
     - include: tasks/nvim.yml
-    - include: tasks/docker.yml
     - include: tasks/tor.yml
     - include: tasks/hacking.yml
     - include: tasks/dotfiles.yml
     - include: tasks/node.yml
+
+    - include: tasks/docker.yml
     - include: tasks/dwm.yml
     - include: tasks/desktop.yml
-    - include: tasks/fish.yml
     - include: tasks/cherrytree.yml
     - include: tasks/ergodox.yml
     - include: tasks/telegram.yml

@@ -2,10 +2,13 @@ FROM debian:stable-slim AS base
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y software-properties-common curl git ansible build-essential \
-      sudo && \
+    apt install -y software-properties-common curl git build-essential sudo \
+      openssh-client && \
+    apt install -y python3 python3-pip && \
     apt clean autoclean && \
     apt autoremove --yes
+
+RUN python3 -m pip install ansible
 
 # Allow sudo without password
 RUN \
@@ -28,9 +31,16 @@ WORKDIR /home/mx/ansible
 COPY . .
 RUN chown mx:mx -R .
 
+USER mx
+
 # Setup environment variables
 ENV USER=mx
 ENV TERM=screen-256color
 
-USER mx
+# Download public key for github.com
+RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+# Run ansible tags
+#RUN --mount=type=ssh ansible-playbook local.yml -t dotfiles
+
 CMD bash

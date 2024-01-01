@@ -1,4 +1,4 @@
-# vim:ft=ansible
+# vim:ft=yaml.ansible
 ---
 - name: root - copy zshrc
   become: true
