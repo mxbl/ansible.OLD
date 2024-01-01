@@ -38,3 +38,4 @@
     - include: tasks/telegram.yml
     - include: tasks/mail.yml
     - include: tasks/brave.yml
+    - include: tasks/nix.yml
