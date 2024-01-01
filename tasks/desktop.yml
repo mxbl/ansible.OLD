@@ -78,8 +78,10 @@
 
 - name: X/Alacritty - Get alacritty
   ansible.builtin.git:
-    repo: https://github.com/alacritty/alacritty.git
+    repo: https://github.com/zenixls2/alacritty.git
     dest: "{{ ansible_env.HOME }}/alacritty"
+    single_branch: yes
+    version: ligature
   tags:
     - alacritty
     - X
