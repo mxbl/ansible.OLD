@@ -1,0 +1,29 @@
+# vim:ft=ansible
+---
+- name: Cleanup old shell backup files
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/bashrc.backup-before-nix
+    - /etc/zshrc.backup-before-nix
+    - /etc/profile.d/nix.sh.backup-before-nix
+    - /etc/zsh/zshrc.backup-before-nix
+  tags:
+    - nix-install
+
+- name: Install nix
+  become: true
+  shell: curl -L https://nixos.org/nix/install | sh -s -- --daemon
+  tags:
+    - nix-install
+
+# TODO: nix uninstall
+# - systemctl stop nix-daemon.service
+# - systemctl disable nix-daemon.socket nix-daemon.service
+# - systemctl daemon-reload
+# - rm -rf /etc/nix /etc/profile.d/nix.sh \
+#     /etc/tmpfiles.d/nix-daemon.conf ~root/.nix-channels \
+#     ~root/.nix-defexpr ~root/.nix-profile
+# - (maybe) `rm -rf /nix` but atm its a mounted device
