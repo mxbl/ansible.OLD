@@ -1,25 +1,18 @@
 # vim:ft=ansible
 ---
-- name: Install Stow
-  become: true
-  apt: name=stow
-  tags:
-    - stow
-    - dotfiles
-
 - name: Clone the .dotfiles repo
   ansible.builtin.git:
     repo: "git@github.com:mxbl/.dotfiles.git"
     dest: "{{ ansible_env.HOME }}/.dotfiles"
-    update: yes
-    accept_hostkey: yes
+    update: true
+    accept_hostkey: true
     version: main
   tags:
-    - stow
     - dotfiles
+    - dev
 
-- name: Stow dotfiles (run ~/.dotfiles/install)
-  shell: cd $HOME/.dotfiles && ./install
-  tags:
-    - stow
-    - dotfiles
+# - name: Stow dotfiles (run ~/.dotfiles/install)
+#   shell: cd $HOME/.dotfiles && ./install
+#   tags:
+#     - stow
+#     - dotfiles

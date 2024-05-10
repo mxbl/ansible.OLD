@@ -1,27 +1,35 @@
 # vim:ft=ansible
 ---
 - name: Make sure git directory exists
-  file:
-    dest: "{{ git_dir }}"
+  ansible.builtin.file:
+    path: "{{ git_dir }}"
     state: directory
+    mode: "0755"
   tags:
     - core
+    - dev
+
+- name: Make sure home bin folder exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/bin"
+    state: directory
+    mode: "0755"
+  tags:
+    - core
+    - dev
 
 - name: Install core requirements
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
-      - man-db
-      - curl
       - git
-      - vim
       - fzf
-      - zsh
       - tmux
       - ripgrep
-      - htop
-      - net-tools
-      - ftp
-      - nmap
+      - direnv
+      - stow
+      - gpg
+      - btop
   tags:
     - core
+    - dev

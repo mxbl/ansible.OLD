@@ -2,7 +2,7 @@
 ---
 - name: Install brave requirements
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - apt-transport-https
       - curl
@@ -21,25 +21,26 @@
 - name: Setup Brave apt repository
   become: true
   ansible.builtin.template:
-    src:   brave.j2
-    dest:  /etc/apt/sources.list.d/brave.list
+    src: brave.j2
+    dest: /etc/apt/sources.list.d/brave.list
     owner: root
     group: root
+    mode: "644"
   tags:
     - brave
 
 - name: Update Cache
   become: true
-  apt:
+  ansible.builtin.apt:
     update_cache: true
   tags:
     - brave
 
 - name: Install the latest version of brave browser
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - brave-browser
-    state: latest
+    state: present
   tags:
     - brave

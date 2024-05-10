@@ -1,26 +1,26 @@
 # vim:ft=ansible
 ---
 - name: Ensure .ssh directory exists
-  file:
+  ansible.builtin.file:
     dest: "{{ dest_key | dirname }}"
-    mode: 0700
+    mode: "0700"
     state: directory
   tags:
     - ssh
 
 - name: Install ssh key
-  copy:
-    src:  "{{ src_key }}"
+  ansible.builtin.copy:
+    src: "{{ src_key }}"
     dest: "{{ dest_key }}"
-    mode: 0600
+    mode: "0600"
   tags:
     - ssh
 
 - name: Install ssh key public
-  copy:
-    src:  "{{ src_key }}.pub"
+  ansible.builtin.copy:
+    src: "{{ src_key }}.pub"
     dest: "{{ dest_key }}.pub"
-    mode: 0644
+    mode: "0644"
   tags:
     - ssh
 
@@ -28,6 +28,6 @@
   ansible.posix.authorized_key:
     user: "{{ ansible_env.USER }}"
     state: present
-    key:  "{{ lookup('file', './.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', './.ssh/id_rsa.pub') }}"
   tags:
     - ssh

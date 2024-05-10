@@ -2,17 +2,18 @@
 ---
 - name: Install mutt
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - mutt
-    state: latest
+    state: present
   tags:
     - mail
 
 - name: Create cache directories for mutt
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: "755"
   loop:
     - "{{ ansible_env.HOME }}/.mutt/cache/headers"
     - "{{ ansible_env.HOME }}/.mutt/cache/bodies"
@@ -20,8 +21,9 @@
     - mail
 
 - name: Create certificates store for mutt
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.mutt/certificates"
     state: touch
+    mode: "0600"
   tags:
     - mail

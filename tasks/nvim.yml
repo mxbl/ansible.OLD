@@ -2,22 +2,24 @@
 ---
 - name: Remove neovim
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/neovim"
+    path: "{{ git_dir }}/neovim"
     state: absent
   tags:
     - nvim
+    - dev
 
 - name: Clone neovim
   ansible.builtin.git:
     repo: 'https://github.com/neovim/neovim.git'
-    dest: "{{ ansible_env.HOME }}/neovim"
-    #version: release-0.8
+    dest: "{{ git_dir }}/neovim"
+    # version: release-0.8
   tags:
     - nvim
+    - dev
 
 - name: Install build requirements for neovim
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - ninja-build
       - gettext
@@ -31,56 +33,95 @@
       - unzip
       - curl
       - doxygen
-    state: latest
+    state: present
     update_cache: true
   tags:
     - nvim
-    - nvim-lsp
+    - dev
 
 - name: Build neovim
-  shell: "cd {{ ansible_env.HOME }}/neovim && make -j 20"
+  ansible.builtin.shell: "cd {{ git_dir }}/neovim && make -j 20"
   tags:
     - nvim
+    - dev
 
 - name: Install neovim
   become: true
-  shell: "cd {{ ansible_env.HOME }}/neovim && make install"
+  ansible.builtin.shell: "cd {{ git_dir }}/neovim && make install"
   tags:
     - nvim
+    - dev
 
-- name: Neovim Plugin Development 1
+- name: Node - Install nodejs and npm
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
-      - lua5.2
-      - luarocks
-      - liblua5.2-dev
+      - nodejs
+      - npm
   tags:
     - nvim
+    - dev
 
-- name: Neovim Plugin Development 2 luacheck
+- name: Node - Install N
   become: true
-  shell: luarocks install luacheck
+  npm:
+    name: n
+    global: true
   tags:
     - nvim
+    - dev
 
-- name: Clone/Pull lua language server
+- name: Node - Install correct version of Node
+  become: true
+  ansible.builtin.shell: n latest
+  tags:
+    - nvim
+    - dev
+
+- name: Clone the nvim config
   ansible.builtin.git:
-    repo: 'https://github.com/sumneko/lua-language-server'
-    dest: "{{ git_dir }}/lua-language-server"
-    recursive: yes
-    update:    yes
+    repo: "git@github.com:mxbl/nvim.git"
+    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    update: true
+    accept_hostkey: true
+    version: main
   tags:
     - nvim
-    - nvim-lsp
+    - dev
 
-- name: Build Language Lua Server
-  shell: |
-    cd {{ git_dir }}/lua-language-server/3rd/luamake && ./compile/install.sh
-    cd {{ git_dir }}/lua-language-server && ./3rd/luamake/luamake rebuild
-  tags:
-    - nvim
-    - nvim-lsp
+# - name: Neovim Plugin Development 1
+#   become: true
+#   apt:
+#     pkg:
+#       - lua5.2
+#       - luarocks
+#       - liblua5.2-dev
+#   tags:
+#     - nvim
+#
+# - name: Neovim Plugin Development 2 luacheck
+#   become: true
+#   shell: luarocks install luacheck
+#   tags:
+#     - nvim
+
+# - name: Clone/Pull lua language server
+#   ansible.builtin.git:
+#     repo: 'https://github.com/sumneko/lua-language-server'
+#     dest: "{{ git_dir }}/lua-language-server"
+#     recursive: true
+#     update: true
+#   tags:
+#     - nvim
+#     - nvim-lsp
+
+# - name: Build Language Lua Server
+#   shell: |
+#     cd {{ git_dir }}/lua-language-server/3rd/luamake && ./compile/install.sh
+#     cd {{ git_dir }}/lua-language-server && ./3rd/luamake/luamake rebuild
+#   tags:
+#     - nvim
+#     - nvim-lsp
 
 # FIXME: delete! Plug isn't a thing anymore
 #

@@ -2,7 +2,7 @@
 ---
 - name: X - Install desktop packages
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - rxvt-unicode
       - dmenu
@@ -13,21 +13,13 @@
     - X
 
 - name: X/fonts - Create required directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: "0755"
   loop:
     - "{{ ansible_env.HOME }}/.local/share/fonts/"
     - "{{ ansible_env.HOME }}/Downloads"
-  tags:
-    - fonts
-    - X
-
-- name: X/fonts - Install monaco font
-  copy:
-    src: monaco.ttf
-    dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-    force: no
   tags:
     - fonts
     - X
@@ -36,16 +28,17 @@
   ansible.builtin.unarchive:
     src: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
     dest: "{{ ansible_env.HOME }}/Downloads"
-    remote_src: yes
+    remote_src: true
   tags:
     - fonts
     - X
 
 - name: X/fonts - Install jetbrains
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-    force: no
+    force: false
+    mode: "0644"
   with_fileglob:
     - "{{ ansible_env.HOME }}/Downloads/fonts/ttf/*"
   tags:
@@ -53,14 +46,14 @@
     - X
 
 - name: X/fonts - Refresh font cache
-  shell: fc-cache
+  ansible.builtin.shell: fc-cache
   tags:
     - fonts
     - X
 
 - name: X/Alacritty - Install build requirements
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - cmake
       - pkg-config
@@ -69,7 +62,7 @@
       - libxcb-xfixes0-dev
       - libxkbcommon-dev
       - python3
-    state: latest
+    state: present
     update_cache: true
   tags:
     - alacritty
@@ -80,24 +73,24 @@
   ansible.builtin.git:
     repo: https://github.com/zenixls2/alacritty.git
     dest: "{{ ansible_env.HOME }}/alacritty"
-    single_branch: yes
+    single_branch: true
     version: ligature
   tags:
     - alacritty
     - X
 
 - name: X/Alacritty - Cargo build
-  shell: "cd {{ ansible_env.HOME }}/alacritty && cargo build --release"
+  ansible.builtin.shell: "cd {{ ansible_env.HOME }}/alacritty && cargo build --release"
   tags:
     - alacritty
     - X
 
 - name: X/Alacritty - Install
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ ansible_env.HOME }}/alacritty/target/release/alacritty"
     dest: "/usr/local/bin"
-    mode: '0755'
+    mode: "0755"
   tags:
     - alacritty
     - X

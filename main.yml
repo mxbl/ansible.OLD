@@ -1,0 +1,65 @@
+# vim:ft=ansible
+---
+
+# NOTE:
+# * .ssh/config needs an entry with `ForwardAgent yes` for the target host,
+#   to pull private git repositories from github.
+# * this user needs to be in the hosts sudo group and /etc/sudoers needs to
+#   be modified to allow no passwd usage of sudo.
+
+- name: Playbook to set up a new system locally
+  hosts: all
+  gather_facts: true
+  vars:
+    git_dir: "{{ ansible_env.HOME }}/git"
+  pre_tasks:
+    - name: Update apt cache
+      become: true
+      ansible.builtin.apt:
+        force_apt_get: true
+        update_cache: true
+      tags:
+        - core
+  tasks:
+    # Dev
+    - name: Core
+      ansible.builtin.include_tasks: tasks/core.yml
+      tags: core, dev
+    - name: Dotfiles
+      ansible.builtin.include_tasks: tasks/dotfiles.yml
+      tags: dotfiles, dev
+    - name: Fish
+      ansible.builtin.include_tasks: tasks/fish.yml
+      tags: fish, dev
+    - name: Nvim
+      ansible.builtin.include_tasks: tasks/nvim.yml
+      tags: nvim, dev
+
+    # X
+    - name: Brave
+      ansible.builtin.include_tasks: tasks/brave.yml
+      tags: brave
+    - name: Telegram
+      ansible.builtin.include_tasks: tasks/telegram.yml
+      tags: telegram
+
+    # NOTE: needs cargo installed to compile alacritty
+    - name: Desktop
+      ansible.builtin.include_tasks: tasks/desktop.yml
+
+    # TAGS: root
+    # - name: Setup root account
+    #   ansible.builtin.include_tasks: tasks/root.yml
+
+    # TODO:
+    # - include: tasks/tor.yml
+    # - include: tasks/hacking.yml
+    # - include: tasks/mail.yml
+    # - include: tasks/nix.yml
+    # - include: tasks/docker.yml
+
+    # Old / Unused
+    # - include: tasks/ssh.yml
+    # - include: tasks/dwm.yml
+    # - include: tasks/cherrytree.yml
+    # - include: tasks/ergodox.yml

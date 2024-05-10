@@ -3,12 +3,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
     apt upgrade -y && \
     apt install -y software-properties-common curl git build-essential sudo \
-      openssh-client && \
+      openssh-client ansible && \
     apt install -y python3 python3-pip && \
     apt clean autoclean && \
     apt autoremove --yes
-
-RUN python3 -m pip install ansible
 
 # Allow sudo without password
 RUN \
