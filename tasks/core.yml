@@ -30,6 +30,7 @@
       - stow
       - gpg
       - btop
+      - curl
   tags:
     - core
     - dev
