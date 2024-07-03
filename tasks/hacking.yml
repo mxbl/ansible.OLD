@@ -5,6 +5,7 @@
   apt:
     pkg:
       - macchanger
+      - nmap
     state: latest
   tags:
     - hacking

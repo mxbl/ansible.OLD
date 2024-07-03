@@ -46,6 +46,7 @@
     # NOTE: needs cargo installed to compile alacritty
     - name: Desktop
       ansible.builtin.include_tasks: tasks/desktop.yml
+      tags: X, alacritty
 
     # TAGS: root
     # - name: Setup root account

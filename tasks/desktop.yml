@@ -4,46 +4,46 @@
   become: true
   ansible.builtin.apt:
     pkg:
-      - rxvt-unicode
       - dmenu
       - feh
       - scrot
       - xclip
+      - arandr
   tags:
     - X
 
-- name: X/fonts - Create required directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    mode: "0755"
-  loop:
-    - "{{ ansible_env.HOME }}/.local/share/fonts/"
-    - "{{ ansible_env.HOME }}/Downloads"
-  tags:
-    - fonts
-    - X
+# - name: X/fonts - Create required directories
+#   ansible.builtin.file:
+#     path: "{{ item }}"
+#     state: directory
+#     mode: "0755"
+#   loop:
+#     - "{{ ansible_env.HOME }}/.local/share/fonts/"
+#     - "{{ ansible_env.HOME }}/Downloads"
+#   tags:
+#     - fonts
+#     - X
 
-- name: X/fonts - Get/Extract jetbrains
-  ansible.builtin.unarchive:
-    src: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
-    dest: "{{ ansible_env.HOME }}/Downloads"
-    remote_src: true
-  tags:
-    - fonts
-    - X
+# - name: X/fonts - Get/Extract jetbrains
+#   ansible.builtin.unarchive:
+#     src: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
+#     dest: "{{ ansible_env.HOME }}/Downloads"
+#     remote_src: true
+#   tags:
+#     - fonts
+#     - X
 
-- name: X/fonts - Install jetbrains
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-    force: false
-    mode: "0644"
-  with_fileglob:
-    - "{{ ansible_env.HOME }}/Downloads/fonts/ttf/*"
-  tags:
-    - fonts
-    - X
+# - name: X/fonts - Install jetbrains
+#   ansible.builtin.copy:
+#     src: "{{ item }}"
+#     dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+#     force: false
+#     mode: "0644"
+#   with_fileglob:
+#     - "{{ ansible_env.HOME }}/Downloads/fonts/ttf/*"
+#   tags:
+#     - fonts
+#     - X
 
 - name: X/fonts - Refresh font cache
   ansible.builtin.shell: fc-cache

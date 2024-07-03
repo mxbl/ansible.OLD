@@ -47,16 +47,16 @@
     - fish
     - dev
 
-- name: Clean old fish configs
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config/fish"
-    state: absent
-  tags:
-    - fish
-    - dev
-
-- name: Stow .dotfiles/fish
-  ansible.builtin.shell: "cd {{ ansible_env.HOME }}/.dotfiles && stow fish"
-  tags:
-    - fish
-    - dev
+# - name: Clean old fish configs
+#   ansible.builtin.file:
+#     path: "{{ ansible_env.HOME }}/.config/fish"
+#     state: absent
+#   tags:
+#     - fish
+#     - dev
+#
+# - name: Stow .dotfiles/fish
+#   ansible.builtin.shell: "cd {{ ansible_env.HOME }}/.dotfiles && stow fish"
+#   tags:
+#     - fish
+#     - dev

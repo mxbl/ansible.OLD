@@ -1,5 +1,9 @@
 # vim:ft=ansible
 ---
+
+# TODO:
+# - install system requirements for language servers
+
 - name: Remove neovim
   ansible.builtin.file:
     path: "{{ git_dir }}/neovim"
@@ -47,7 +51,7 @@
 
 - name: Install neovim
   become: true
-  ansible.builtin.shell: "cd {{ git_dir }}/neovim && make install"
+  ansible.builtin.command: "cd {{ git_dir }}/neovim && make install"
   tags:
     - nvim
     - dev
@@ -64,7 +68,7 @@
 
 - name: Node - Install N
   become: true
-  npm:
+  community.general.npm:
     name: n
     global: true
   tags:
