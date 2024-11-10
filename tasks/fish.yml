@@ -1,62 +1,25 @@
-# vim:ft=ansible
+# vim:ft=yaml.ansible
 ---
-- name: Fish - Setup fish apt sources
-  become: true
-  ansible.builtin.template:
-    src: fish.j2
-    dest: /etc/apt/sources.list.d/fish.list
-    owner: root
-    group: root
-    mode: "0644"
-  tags:
-    - fish
-    - dev
-
-- name: Fish - Add GPG key for fish release 3
-  become: true
-  ansible.builtin.apt_key:
-    url: https://download.opensuse.org/repositories/shells:fish:release:3/Debian_{{ ansible_distribution_major_version }}/Release.key
-    state: present
-  tags:
-    - fish
-    - dev
-
-- name: Fish - Update Cache
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-  tags:
-    - fish
-    - dev
-
 - name: Fish - Install fish
+  tags: fish
   become: true
   ansible.builtin.apt:
-    pkg: fish
-    state: present
-  tags:
-    - fish
-    - dev
+    pkg:
+      - fish
+      - zoxide
 
 - name: Make fish the default shell
+  tags: fish
   become: true
   ansible.builtin.user:
     name: mx
     shell: /usr/bin/fish
-  tags:
-    - fish
-    - dev
 
-# - name: Clean old fish configs
-#   ansible.builtin.file:
-#     path: "{{ ansible_env.HOME }}/.config/fish"
-#     state: absent
-#   tags:
-#     - fish
-#     - dev
-#
-# - name: Stow .dotfiles/fish
-#   ansible.builtin.shell: "cd {{ ansible_env.HOME }}/.dotfiles && stow fish"
-#   tags:
-#     - fish
-#     - dev
+- name: Setup .config/fish
+  tags: fish, fish_config
+  ansible.builtin.git:
+    repo: "git@github.com:mxbl/fish.git"
+    dest: "{{ ansible_env.HOME }}/.config/fish"
+    update: true
+    accept_hostkey: true
+    version: main

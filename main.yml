@@ -13,6 +13,7 @@
   vars:
     git_dir: "{{ ansible_env.HOME }}/git"
     nvim_release: "0.10"
+    golang_version: "1.23.3"
   pre_tasks:
     - name: Update apt cache
       tags: always
@@ -21,19 +22,20 @@
         force_apt_get: true
         update_cache: true
   tasks:
-    # Dev
     - name: Core
       ansible.builtin.include_tasks: tasks/core.yml
       tags: core
+
+    # TODO: Copy `eza` from `.cargo/bin` over by hand
     - name: Fish
       ansible.builtin.include_tasks: tasks/fish.yml
-      tags: fish
+      tags: fish, fish_config
     - name: Dotfiles
       ansible.builtin.include_tasks: tasks/dotfiles.yml
       tags: dotfiles
     - name: Nvim
       ansible.builtin.include_tasks: tasks/nvim.yml
-      tags: nvim
+      tags: nvim, nvim_config, golang
 
     # X
     - name: Brave
