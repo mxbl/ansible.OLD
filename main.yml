@@ -1,4 +1,4 @@
-# vim:ft=ansible
+# vim:ft=yaml.ansible
 ---
 
 # NOTE:
@@ -12,28 +12,28 @@
   gather_facts: true
   vars:
     git_dir: "{{ ansible_env.HOME }}/git"
+    nvim_release: "0.10"
   pre_tasks:
     - name: Update apt cache
+      tags: always
       become: true
       ansible.builtin.apt:
         force_apt_get: true
         update_cache: true
-      tags:
-        - core
   tasks:
     # Dev
     - name: Core
       ansible.builtin.include_tasks: tasks/core.yml
-      tags: core, dev
-    - name: Dotfiles
-      ansible.builtin.include_tasks: tasks/dotfiles.yml
-      tags: dotfiles, dev
+      tags: core
     - name: Fish
       ansible.builtin.include_tasks: tasks/fish.yml
-      tags: fish, dev
+      tags: fish
+    - name: Dotfiles
+      ansible.builtin.include_tasks: tasks/dotfiles.yml
+      tags: dotfiles
     - name: Nvim
       ansible.builtin.include_tasks: tasks/nvim.yml
-      tags: nvim, dev
+      tags: nvim
 
     # X
     - name: Brave
@@ -48,10 +48,6 @@
       ansible.builtin.include_tasks: tasks/desktop.yml
       tags: X, alacritty
 
-    # TAGS: root
-    # - name: Setup root account
-    #   ansible.builtin.include_tasks: tasks/root.yml
-
     # TODO:
     # - include: tasks/tor.yml
     # - include: tasks/hacking.yml
@@ -60,7 +56,4 @@
     # - include: tasks/docker.yml
 
     # Old / Unused
-    # - include: tasks/ssh.yml
-    # - include: tasks/dwm.yml
-    # - include: tasks/cherrytree.yml
     # - include: tasks/ergodox.yml
