@@ -1,4 +1,4 @@
-# vim:ft=ansible
+# vim:ft=yaml.ansible
 ---
 - name: Install mutt
   become: true

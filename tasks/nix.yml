@@ -1,4 +1,4 @@
-# vim:ft=ansible
+# vim:ft=yaml.ansible
 ---
 - name: Cleanup old shell backup files
   become: true
