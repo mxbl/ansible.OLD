@@ -40,4 +40,4 @@
   ansible.builtin.template:
     src: alacritty.yml.j2
     dest: "{{ ansible_env.HOME }}/.alacritty.yml"
-    mode: "0755"
+    mode: "0644"
