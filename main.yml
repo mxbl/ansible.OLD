@@ -14,6 +14,9 @@
     git_dir: "{{ ansible_env.HOME }}/git"
     nvim_release: "0.10"
     golang_version: "1.23.3"
+    cargo: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
+  vars_files:
+    - ./vars/alacritty.yml
   pre_tasks:
     - name: Update apt cache
       tags: always
@@ -21,6 +24,7 @@
       ansible.builtin.apt:
         force_apt_get: true
         update_cache: true
+      when: ansible_distribution == 'Debian'
   tasks:
     - name: Core
       ansible.builtin.include_tasks: tasks/core.yml
@@ -52,7 +56,7 @@
     # NOTE: needs cargo installed to compile alacritty
     - name: Desktop
       ansible.builtin.include_tasks: tasks/desktop.yml
-      tags: X, alacritty
+      tags: X
 
     # TODO:
     # - include: tasks/tor.yml

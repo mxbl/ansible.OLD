@@ -1,10 +1,5 @@
 # vim:ft=yaml.ansible
 ---
-
-# TODOs:
-# - [ ] move s4 git to github
-# - [ ] install golang
-
 - name: Cleanup old neovim checkout
   tags: nvim
   ansible.builtin.file:
@@ -21,7 +16,7 @@
 - name: Install build requirements for neovim
   tags: nvim
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     pkg:
       - ninja-build
       - gettext
@@ -46,7 +41,7 @@
 - name: Node - Install nodejs and npm
   tags: nvim
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     pkg:
       - nodejs
       - npm
@@ -90,37 +85,3 @@
 #   shell: luarocks install luacheck
 #   tags:
 #     - nvim
-
-# - name: Clone/Pull lua language server
-#   ansible.builtin.git:
-#     repo: 'https://github.com/sumneko/lua-language-server'
-#     dest: "{{ git_dir }}/lua-language-server"
-#     recursive: true
-#     update: true
-#   tags:
-#     - nvim
-#     - nvim-lsp
-
-# - name: Build Language Lua Server
-#   shell: |
-#     cd {{ git_dir }}/lua-language-server/3rd/luamake && ./compile/install.sh
-#     cd {{ git_dir }}/lua-language-server && ./3rd/luamake/luamake rebuild
-#   tags:
-#     - nvim
-#     - nvim-lsp
-
-# FIXME: delete! Plug isn't a thing anymore
-#
-#- name: Make sure Vim-Plug's installation path exists
-#  file:
-#    path: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload"
-#    state: directory
-#  tags:
-#    - nvim
-#
-#- name: install Vim-Plug
-#  get_url:
-#    url:  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#    dest: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
-#  tags:
-#    - nvim

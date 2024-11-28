@@ -30,16 +30,14 @@
 
 - name: Install core requirements
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     pkg:
       - git
+      - ripgrep
       # - fzf
       # - tmux
-      # - ripgrep
       # - direnv
       # - stow
       # - gpg
       # - btop
       # - curl
-  tags:
-    - core

@@ -3,16 +3,16 @@
 - name: Install build requirements
   tags: alacritty
   become: true
-  ansible.builtin.apt:
-    pkg:
-      - cmake
-      - g++
-      - pkg-config
-      - libfreetype6-dev
-      - libfontconfig1-dev
-      - libxcb-xfixes0-dev
-      - libxkbcommon-dev
-      - python3
+  block:
+    - name: Debian
+      ansible.builtin.apt:
+        pkg: "{{ cargo_build_requirements_debian }}"
+      when: ansible_distribution == 'Debian'
+
+    - name: Fedora
+      ansible.builtin.dnf:
+        pkg: "{{ cargo_build_requirements_fedora }}"
+      when: ansible_distribution == 'Fedora'
 
 - name: Get alacritty
   tags: alacritty
@@ -22,9 +22,11 @@
     single_branch: true
     version: ligature
 
-- name: Build
+- name: Cargo build
   tags: alacritty
-  ansible.builtin.shell: "cd {{ git_dir }}/alacritty && cargo build --release"
+  ansible.builtin.command:
+    cmd: "{{ cargo }} build --release"
+    chdir: "{{ git_dir }}/alacritty"
   changed_when: true
 
 - name: Install
@@ -36,7 +38,7 @@
     mode: "0755"
 
 - name: Setup alacritty configuration file
-  tags: alacritty, alacritty_config
+  tags: alacritty_config
   ansible.builtin.template:
     src: alacritty.yml.j2
     dest: "{{ ansible_env.HOME }}/.alacritty.yml"
