@@ -16,7 +16,7 @@
     golang_version: "1.23.3"
     cargo: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
   vars_files:
-    - ./vars/alacritty.yml
+    - ./vars/build_requirements.yml
   pre_tasks:
     - name: Update apt cache
       tags: always

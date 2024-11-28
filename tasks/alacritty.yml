@@ -1,17 +1,17 @@
 # vim:ft=yaml.ansible
 ---
-- name: Install build requirements
+- name: Requirements
   tags: alacritty
   become: true
   block:
-    - name: Debian
+    - name: Install build requirements for Debian
       ansible.builtin.apt:
-        pkg: "{{ cargo_build_requirements_debian }}"
+        pkg: "{{ alacritty_build_requirements_debian }}"
       when: ansible_distribution == 'Debian'
 
-    - name: Fedora
+    - name: Install build requirements for Fedora
       ansible.builtin.dnf:
-        pkg: "{{ cargo_build_requirements_fedora }}"
+        pkg: "{{ alacritty_build_requirements_fedora }}"
       when: ansible_distribution == 'Fedora'
 
 - name: Get alacritty

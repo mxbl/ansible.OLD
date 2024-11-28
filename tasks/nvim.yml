@@ -13,38 +13,40 @@
     dest: "{{ git_dir }}/neovim"
     version: "release-{{ nvim_release }}"
 
-- name: Install build requirements for neovim
+- name: Requirements
   tags: nvim
   become: true
-  ansible.builtin.package:
-    pkg:
-      - ninja-build
-      - gettext
-      - cmake
-      - unzip
-      - curl
-      - build-essential
-    state: present
-    update_cache: true
+  block:
+    - name: Install build requirements for Debian
+      ansible.builtin.apt:
+        pkg: "{{ nvim_build_requirements_debian }}"
+      when: ansible_distribution == 'Debian'
 
-- name: Build neovim
+    - name: Install build requirements for Fedora
+      ansible.builtin.dnf:
+        pkg: "{{ nvim_build_requirements_fedora }}"
+      when: ansible_distribution == 'Fedora'
+
+    - name: Install Node and Npm
+      ansible.builtin.package:
+        pkg:
+          - nodejs
+          - npm
+
+- name: Make
   tags: nvim
-  ansible.builtin.shell: "cd {{ git_dir }}/neovim && make -j 20"
+  ansible.builtin.command:
+    cmd: "make -j 20"
+    chdir: "{{ git_dir }}/neovim"
   changed_when: true
 
-- name: Install neovim
+- name: Make install
   tags: nvim
   become: true
-  ansible.builtin.shell: "cd {{ git_dir }}/neovim && make install"
+  ansible.builtin.command:
+    cmd: "make install"
+    chdir: "{{ git_dir }}/neovim"
   changed_when: true
-
-- name: Node - Install nodejs and npm
-  tags: nvim
-  become: true
-  ansible.builtin.package:
-    pkg:
-      - nodejs
-      - npm
 
 - name: Install golang
   tags: nvim, golang
@@ -62,7 +64,7 @@
         remote_src: true
 
 - name: Setup .config/nvim
-  tags: nvim, nvim_config
+  tags: nvim_config
   ansible.builtin.git:
     repo: "git@github.com:mxbl/nvim.git"
     dest: "{{ ansible_env.HOME }}/.config/nvim"
