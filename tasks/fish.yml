@@ -1,9 +1,9 @@
 # vim:ft=yaml.ansible
 ---
-- name: Fish - Install fish
+- name: Fish install
   tags: fish
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.package:
     pkg:
       - fish
       - zoxide
@@ -16,7 +16,7 @@
     shell: /usr/bin/fish
 
 - name: Setup .config/fish
-  tags: fish, fish_config
+  tags: fish_config
   ansible.builtin.git:
     repo: "git@github.com:mxbl/fish.git"
     dest: "{{ ansible_env.HOME }}/.config/fish"

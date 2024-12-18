@@ -10,12 +10,8 @@
 - name: Playbook to set up a new system locally
   hosts: all
   gather_facts: true
-  vars:
-    git_dir: "{{ ansible_env.HOME }}/git"
-    nvim_release: "0.10"
-    golang_version: "1.23.3"
-    cargo: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
   vars_files:
+    - ./vars/main.yml
     - ./vars/build_requirements.yml
   pre_tasks:
     - name: Update apt cache
@@ -34,24 +30,24 @@
     - name: Fish
       ansible.builtin.include_tasks: tasks/fish.yml
       tags: fish, fish_config
-    - name: Dotfiles
-      ansible.builtin.include_tasks: tasks/dotfiles.yml
-      tags: dotfiles
     - name: Nvim
       ansible.builtin.include_tasks: tasks/nvim.yml
       tags: nvim, nvim_config, golang
+    - name: Dotfiles
+      ansible.builtin.include_tasks: tasks/dotfiles.yml
+      tags: dotfiles
 
     # X
     - name: Alacritty
       ansible.builtin.include_tasks: tasks/alacritty.yml
       tags: alacritty, alacritty_config
 
-    - name: Brave
-      ansible.builtin.include_tasks: tasks/brave.yml
-      tags: brave
-    - name: Telegram
-      ansible.builtin.include_tasks: tasks/telegram.yml
-      tags: telegram
+    # - name: Brave
+    #   ansible.builtin.include_tasks: tasks/brave.yml
+    #   tags: brave
+    # - name: Telegram
+    #   ansible.builtin.include_tasks: tasks/telegram.yml
+    #   tags: telegram
 
     # NOTE: needs cargo installed to compile alacritty
     - name: Desktop
