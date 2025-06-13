@@ -1,46 +1,40 @@
-# vim:ft=ansible
+# vim:ft=yaml.ansible
 ---
 - name: Install brave requirements
+  tags: brave
   become: true
-  ansible.builtin.apt:
-    pkg:
-      - apt-transport-https
-      - curl
-    state: absent
-  tags:
-    - brave
+  ansible.builtin.package:
+    name: [apt-transport-https, curl]
+    state: present
 
 - name: Add Brave GPG key
+  tags: brave
   become: true
   ansible.builtin.apt_key:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    keyring: /etc/apt/keyrings/brave-browser-archive-keyring.gpg
+
+- name: Add Brave apt repository
+  tags: brave
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb [ signed-by=/etc/apt/keyrings/brave-browser-archive-keyring.gpg arch=amd64 ] https://brave-browser-apt-release.s3.brave.com/ stable main
     state: present
-  tags:
-    - brave
 
-- name: Setup Brave apt repository
-  become: true
-  ansible.builtin.template:
-    src: brave.j2
-    dest: /etc/apt/sources.list.d/brave.list
-    owner: root
-    group: root
-    mode: "644"
-  tags:
-    - brave
-
-- name: Update Cache
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-  tags:
-    - brave
+# - name: Setup Brave apt repository
+#   tags: brave
+#   become: true
+#   ansible.builtin.template:
+#     src: brave.j2
+#     dest: /etc/apt/sources.list.d/brave.list
+#     owner: root
+#     group: root
+#     mode: "644"
 
 - name: Install the latest version of brave browser
+  tags: brave
   become: true
-  ansible.builtin.apt:
-    pkg:
-      - brave-browser
+  ansible.builtin.package:
+    update_cache: true
+    name: brave-browser
     state: present
-  tags:
-    - brave
