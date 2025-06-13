@@ -28,18 +28,24 @@
     # TODO: Copy `eza` from `.cargo/bin` over by hand
     - name: Fish
       ansible.builtin.include_tasks: tasks/fish.yml
-      tags: fish, fish_config
+      tags: fish
     - name: Nvim
       ansible.builtin.include_tasks: tasks/nvim.yml
-      tags: nvim, nvim_config, golang
-    - name: Dotfiles
-      ansible.builtin.include_tasks: tasks/dotfiles.yml
-      tags: dotfiles
+      tags: nvim
+    # - name: Dotfiles
+    #   ansible.builtin.include_tasks: tasks/dotfiles.yml
+    #   tags: dotfiles
 
     # X
     - name: Brave
       ansible.builtin.include_tasks: tasks/brave.yml
       tags: brave
+    - name: Syncthing
+      ansible.builtin.include_tasks: tasks/syncthing.yml
+      tags: syncthing
+    - name: Obsidian
+      ansible.builtin.include_tasks: tasks/obsidian.yml
+      tags: obsidian
 
     # - name: Telegram
     #   ansible.builtin.include_tasks: tasks/telegram.yml
