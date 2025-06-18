@@ -1,18 +1,19 @@
 # vim:ft=yaml.ansible
 ---
-- name: Add syncthing GPG key
-  tags: syncthing
-  become: true
-  ansible.builtin.apt_key:
-    url: https://syncthing.net/release-key.gpg
-    keyring: /etc/apt/keyrings/syncthing-archive-keyring.gpg
-
-- name: Add syncthing apt repository
-  tags: syncthing
-  become: true
-  ansible.builtin.apt_repository:
-    repo: deb [ signed-by=/etc/apt/keyrings/syncthing-archive-keyring.gpg arch=amd64 ] https://apt.syncthing.net/ syncthing stable
-    state: present
+# - name: Add syncthing GPG key
+#   tags: syncthing
+#   become: true
+#   ansible.builtin.apt_key:
+#     url: '{{ packages.syncthing.keyfile }}'
+#     keyring: '{{ packages.syncthing.keyring }}'
+#
+# - name: Add syncthing apt repository
+#   tags: syncthing
+#   become: true
+#   ansible.builtin.apt_repository:
+#     repo: |
+#       deb [ signed-by={{ packages.syncthing.keyring }} arch=amd64 ] {{ packages.syncthing.repo }}
+#     state: present
 
 - name: Install Syncthing
   tags: syncthing

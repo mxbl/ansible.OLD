@@ -1,0 +1,10 @@
+---
+keyrings:
+  - name: eza
+    keyfile: 'https://raw.githubusercontent.com/eza-community/eza/main/deb.asc'
+    keyring: '/etc/apt/keyrings/gierens.gpg'
+    repo: 'http://deb.gierens.de stable main'
+  - name: synthing
+    keyfile: 'https://syncthing.net/release-key.gpg'
+    keyring: '/etc/apt/keyrings/syncthing-archive-keyring.gpg'
+    repo: 'https://apt.syncthing.net/ syncthing stable'

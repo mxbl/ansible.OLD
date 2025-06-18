@@ -1,5 +1,36 @@
 # vim:ft=yaml.ansible
 ---
+- name: Keyring setup
+  tags: core
+  block:
+    - name: Add GPG keys
+      become: true
+      ansible.builtin.apt_key:
+        url: '{{ item.keyfile }}'
+        keyring: '{{ item.keyring }}'
+      with_items: "{{ keyrings }}"
+
+    - name: Add required apt repository
+      become: true
+      ansible.builtin.apt_repository:
+        repo: |
+          deb [ signed-by={{ item.keyring }} arch=amd64 ] {{ item.repo }}
+        state: present
+      with_items: "{{ keyrings }}"
+
+    - name: Update package cache
+      become: true
+      ansible.builtin.package:
+        update_cache: true
+
+# - name: Base packages and tools
+#   tags: base
+#   vars:
+#     packages:
+#       - { name: '', key: '' }
+#   block:
+#     - name:
+
 - name: Create needed directories
   tags: core
   ansible.builtin.file:
@@ -7,37 +38,35 @@
     state: directory
     mode: "0755"
   with_items:
-    - "{{ ansible_env.HOME }}/bin"
-    - "{{ ansible_env.HOME }}/dev"
+    # - "{{ ansible_env.HOME }}/bin"
     - "{{ git_dir }}"
 
-- name: Generate locales
-  tags: base
-  block:
-    - name: Copy /etc/locale.gen
-      become: true
-      ansible.builtin.copy:
-        src: locale.gen
-        dest: /etc/locale.gen
-        mode: "0644"
+# - name: Generate locales
+#   tags: base
+#   block:
+#     - name: Copy /etc/locale.gen
+#       become: true
+#       ansible.builtin.copy:
+#         src: locale.gen
+#         dest: /etc/locale.gen
+#         mode: "0644"
+#
+#     - name: Run locale-gen
+#       become: true
+#       ansible.builtin.command: locale-gen
+#       register: out
+#       changed_when: "'done' in out.stdout"
 
-    - name: Run locale-gen
-      become: true
-      ansible.builtin.command: locale-gen
-      register: out
-      changed_when: "'done' in out.stdout"
 
-
-- name: Install core requirements
+- name: Install core tools
   become: true
   ansible.builtin.package:
     pkg:
       - git
       - ripgrep
-      # - fzf
-      # - tmux
-      # - direnv
-      # - stow
-      # - gpg
-      # - btop
-      # - curl
+      - fzf
+      - tmux
+      - direnv
+      - gpg
+      - btop
+      - curl
