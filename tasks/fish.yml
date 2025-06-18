@@ -4,9 +4,28 @@
   tags: fish
   become: true
   ansible.builtin.package:
-    pkg:
+    name:
       - fish
       - zoxide
+      - eza
+    state: present
+
+- name: Install atuin
+  block:
+    - name: Fetch setup script
+      ansible.builtin.get_url:
+        url: https://setup.atuin.sh
+        dest: /tmp/setup.atuin.sh
+      register: atuin_script
+
+    - name: Run setup script
+      ansible.builtin.script:
+        cmd: /tmp/setup.atuin.sh
+
+    - name: Import fish history
+      ansible.builtin.command:
+        cmd: "atuin import fish"
+      changed_when: true
 
 - name: Make fish the default shell
   tags: fish
