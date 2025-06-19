@@ -1,24 +1,25 @@
 # vim:ft=yaml.ansible
 ---
-# - name: Add syncthing GPG key
-#   tags: syncthing
-#   become: true
-#   ansible.builtin.apt_key:
-#     url: '{{ packages.syncthing.keyfile }}'
-#     keyring: '{{ packages.syncthing.keyring }}'
-#
-# - name: Add syncthing apt repository
-#   tags: syncthing
-#   become: true
-#   ansible.builtin.apt_repository:
-#     repo: |
-#       deb [ signed-by={{ packages.syncthing.keyring }} arch=amd64 ] {{ packages.syncthing.repo }}
-#     state: present
-
 - name: Install Syncthing
   tags: syncthing
   become: true
   ansible.builtin.package:
     update_cache: true
-    name: syncthing
+    name: [syncthing, supervisor]
     state: present
+
+- name: Superviror configuration for Syncthing
+  tags: syncthing
+  become: true
+  ansible.builtin.copy:
+    content: |
+      [program:syncthing]
+      autorestart = True
+      directory = /home/mx/
+      user = mx
+      command = /usr/bin/syncthing -no-browser
+      environment = STNORESTART="1", HOME="/home/mx"
+    dest: /etc/supervisor/conf.d/syncthing.conf
+    mode: '0644'
+  notify:
+    - Supervisor reload programs
