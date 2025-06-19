@@ -48,9 +48,9 @@
       ansible.builtin.include_tasks: tasks/obsidian.yml
       tags: obsidian
 
-    # - name: Telegram
-    #   ansible.builtin.include_tasks: tasks/telegram.yml
-    #   tags: telegram
+    - name: Telegram
+      ansible.builtin.include_tasks: tasks/telegram.yml
+      tags: telegram
 
     # NOTE: needs cargo installed to compile alacritty
     - name: Desktop

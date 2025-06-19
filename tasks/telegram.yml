@@ -1,25 +1,16 @@
-# vim:ft=ansible
+# vim:ft=yaml.ansible
 ---
-- name: Download desktop app
-  ansible.builtin.get_url:
-    url: https://telegram.org/dl/desktop/linux
-    dest: /tmp/telegram.archive
-    mode: "0755"
-  tags:
-    - telegram
-
-- name: Extract archive
+- name: Download Telegram desktop app
+  tags: telegram
   ansible.builtin.unarchive:
-    src: /tmp/telegram.archive
-    dest: /tmp
-  tags:
-    - telegram
+    src: https://telegram.org/dl/desktop/linux
+    remote_src: true
+    dest: /tmp/
 
-- name: Copy telegram to system path
+- name: Install Telegram to /usr/local/bin
+  tags: telegram
   become: true
   ansible.builtin.copy:
     src: /tmp/Telegram/Telegram
     dest: /usr/local/bin/telegram
     mode: "0755"
-  tags:
-    - telegram
