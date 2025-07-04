@@ -2,16 +2,15 @@
 ---
 - name: Keyring setup
   tags: core
+  become: true
   block:
     - name: Add GPG keys
-      become: true
       ansible.builtin.apt_key:
         url: '{{ item.keyfile }}'
         keyring: '{{ item.keyring }}'
       with_items: "{{ keyrings }}"
 
     - name: Add required apt repository
-      become: true
       ansible.builtin.apt_repository:
         repo: |
           deb [ signed-by={{ item.keyring }} arch=amd64 ] {{ item.repo }}
@@ -19,7 +18,6 @@
       with_items: "{{ keyrings }}"
 
     - name: Update package cache
-      become: true
       ansible.builtin.package:
         update_cache: true
 
