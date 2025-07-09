@@ -66,3 +66,10 @@
 
     # Old / Unused
     # - include: tasks/ergodox.yml
+  #
+  handlers:
+    - name: Supervisor reload prgrams
+      become: true
+      community.general.supervisorctl:
+        name: "program:"
+        state: restarted
