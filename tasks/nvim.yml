@@ -1,42 +1,38 @@
 # vim:ft=yaml.ansible
 ---
-- name: Cleanup old neovim checkout
-  tags: nvim
-  ansible.builtin.file:
-    path: "{{ git_dir }}/neovim"
-    state: absent
-
 - name: Clone neovim
   tags: nvim
   ansible.builtin.git:
     repo: 'https://github.com/neovim/neovim.git'
     dest: "{{ git_dir }}/neovim"
-    version: "release-{{ nvim_release }}"
+    version: master
+    update: true
+    force: true
 
 - name: Requirements
   tags: nvim
   become: true
   block:
-    - name: Install build requirements for Debian
-      ansible.builtin.apt:
-        pkg: "{{ nvim_build_requirements_debian }}"
-      when: ansible_distribution == 'Debian'
-
-    - name: Install build requirements for Fedora
-      ansible.builtin.dnf:
-        pkg: "{{ nvim_build_requirements_fedora }}"
-      when: ansible_distribution == 'Fedora'
-
-    - name: Install Node and Npm
+    - name: Install build requirements
       ansible.builtin.package:
-        pkg:
-          - nodejs
-          - npm
+        pkg: "{{ nvim_build_requirements_debian }}"
+
+#   - name: Install build requirements for Fedora
+#     ansible.builtin.dnf:
+#       pkg: "{{ nvim_build_requirements_fedora }}"
+#     when: ansible_distribution == 'Fedora'
+
+
+#   - name: Install Node and Npm
+#     ansible.builtin.package:
+#       pkg:
+#         - nodejs
+#         - npm
 
 - name: Make
   tags: nvim
   ansible.builtin.command:
-    cmd: "make -j 20"
+    cmd: "make -j {{ ansible_processor_vcpus }}"
     chdir: "{{ git_dir }}/neovim"
   changed_when: true
 
@@ -48,42 +44,26 @@
     chdir: "{{ git_dir }}/neovim"
   changed_when: true
 
-- name: Install golang
-  tags: nvim, golang
-  become: true
-  block:
-    - name: Cleanup old golang install
-      ansible.builtin.file:
-        path: /usr/local/go
-        state: absent
-
-    - name: Download new golang source
-      ansible.builtin.unarchive:
-        src: https://go.dev/dl/go{{ golang_version }}.linux-amd64.tar.gz
-        dest: /usr/local/
-        remote_src: true
+#- name: Install golang
+#  tags: nvim, golang
+#  become: true
+#  block:
+#    - name: Cleanup old golang install
+#      ansible.builtin.file:
+#        path: /usr/local/go
+#        state: absent
+#
+#    - name: Download new golang source
+#      ansible.builtin.unarchive:
+#        src: https://go.dev/dl/go{{ golang_version }}.linux-amd64.tar.gz
+#        dest: /usr/local/
+#        remote_src: true
 
 - name: Setup .config/nvim
   tags: nvim_config
   ansible.builtin.git:
     repo: "git@github.com:mxbl/nvim.git"
     dest: "{{ ansible_env.HOME }}/.config/nvim"
-    update: true
     accept_hostkey: true
     version: main
-
-# - name: Neovim Plugin Development 1
-#   become: true
-#   apt:
-#     pkg:
-#       - lua5.2
-#       - luarocks
-#       - liblua5.2-dev
-#   tags:
-#     - nvim
-#
-# - name: Neovim Plugin Development 2 luacheck
-#   become: true
-#   shell: luarocks install luacheck
-#   tags:
-#     - nvim
+    update: true
