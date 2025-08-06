@@ -34,7 +34,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "0755"
+    mode: 0755
   with_items:
     # - "{{ ansible_env.HOME }}/bin"
     - "{{ git_dir }}"
@@ -59,12 +59,5 @@
 - name: Install core tools
   become: true
   ansible.builtin.package:
-    pkg:
-      - git
-      - ripgrep
-      - fzf
-      - tmux
-      - direnv
-      - gpg
-      - btop
-      - curl
+    name: "{{ packages }}"
+    state: present

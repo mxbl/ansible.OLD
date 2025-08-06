@@ -16,6 +16,7 @@
       ansible.builtin.get_url:
         url: https://setup.atuin.sh
         dest: /tmp/setup.atuin.sh
+        mode: 0755
       register: atuin_script
 
     - name: Run setup script

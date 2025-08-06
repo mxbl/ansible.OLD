@@ -1,0 +1,10 @@
+---
+core_packages:
+  - git
+  - ripgrep
+  - fzf
+  - tmux
+  - direnv
+  - gpg
+  - btop
+  - curl
