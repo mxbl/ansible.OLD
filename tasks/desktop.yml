@@ -2,13 +2,8 @@
 ---
 - name: X - Install desktop packages
   become: true
-  ansible.builtin.apt:
-    pkg:
-      - dmenu
-      - feh
-      - scrot
-      - xclip
-      - arandr
+  ansible.builtin.package:
+    name: "{{ x_packages }}"
   tags:
     - X
 
@@ -46,51 +41,8 @@
 #     - X
 
 - name: X/fonts - Refresh font cache
-  ansible.builtin.shell: fc-cache
+  ansible.builtin.command: fc-cache
+  changed_when: true
   tags:
     - fonts
-    - X
-
-- name: X/Alacritty - Install build requirements
-  become: true
-  ansible.builtin.apt:
-    pkg:
-      - cmake
-      - pkg-config
-      - libfreetype6-dev
-      - libfontconfig1-dev
-      - libxcb-xfixes0-dev
-      - libxkbcommon-dev
-      - python3
-    state: present
-    update_cache: true
-  tags:
-    - alacritty
-    - X
-
-
-- name: X/Alacritty - Get alacritty
-  ansible.builtin.git:
-    repo: https://github.com/zenixls2/alacritty.git
-    dest: "{{ ansible_env.HOME }}/alacritty"
-    single_branch: true
-    version: ligature
-  tags:
-    - alacritty
-    - X
-
-- name: X/Alacritty - Cargo build
-  ansible.builtin.shell: "cd {{ ansible_env.HOME }}/alacritty && cargo build --release"
-  tags:
-    - alacritty
-    - X
-
-- name: X/Alacritty - Install
-  become: true
-  ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/alacritty/target/release/alacritty"
-    dest: "/usr/local/bin"
-    mode: "0755"
-  tags:
-    - alacritty
     - X

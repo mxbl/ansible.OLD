@@ -26,8 +26,6 @@
     - name: Core
       ansible.builtin.include_tasks: tasks/core.yml
       tags: core
-
-    # TODO: Copy `eza` from `.cargo/bin` over by hand
     - name: Fish
       ansible.builtin.include_tasks: tasks/fish.yml
       tags: fish
@@ -48,12 +46,9 @@
     - name: Obsidian
       ansible.builtin.include_tasks: tasks/obsidian.yml
       tags: obsidian
-
     - name: Telegram
       ansible.builtin.include_tasks: tasks/telegram.yml
       tags: telegram
-
-    # NOTE: needs cargo installed to compile alacritty
     - name: Desktop
       ansible.builtin.include_tasks: tasks/desktop.yml
       tags: X
@@ -67,7 +62,7 @@
 
     # Old / Unused
     # - include: tasks/ergodox.yml
-  #
+
   handlers:
     - name: Supervisor reload prgrams
       become: true

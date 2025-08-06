@@ -8,3 +8,10 @@ core_packages:
   - gpg
   - btop
   - curl
+
+x_packages:
+  - dmenu
+  - feh
+  - scrot
+  - xclip
+  - arandr
