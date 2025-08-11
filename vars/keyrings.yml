@@ -8,3 +8,9 @@ keyrings:
     keyfile: 'https://syncthing.net/release-key.gpg'
     keyring: '/etc/apt/keyrings/syncthing-archive-keyring.gpg'
     repo: 'https://apt.syncthing.net/ syncthing stable'
+
+  # keyring for hashicorp packages (terraform, packer, vagrant, etc.)
+  - name: hashicorp
+    keyfile: 'https://apt.releases.hashicorp.com/gpg'
+    keyring: '/etc/apt/keyrings/hashicorp-archive-keyring.gpg'
+    repo: 'https://apt.releases.hashicorp.com/ {{ ansible_distribution_release }} stable main'

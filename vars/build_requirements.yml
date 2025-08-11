@@ -1,5 +1,9 @@
 # vim:ft=yaml.ansible
 ---
+apt_requirements:
+  - gnupg
+  - software-properties-common
+
 nvim_build_requirements_debian:
   - ninja-build
   - gettext
