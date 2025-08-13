@@ -1,4 +1,8 @@
 ---
+elastic:
+  version:
+    stack: 9.x
+
 keyrings:
   - name: eza
     keyfile: 'https://raw.githubusercontent.com/eza-community/eza/main/deb.asc'
@@ -14,3 +18,9 @@ keyrings:
     keyfile: 'https://apt.releases.hashicorp.com/gpg'
     keyring: '/etc/apt/keyrings/hashicorp-archive-keyring.gpg'
     repo: 'https://apt.releases.hashicorp.com/ {{ ansible_distribution_release }} stable main'
+
+  # keyring for ELK stack packages (elasticsearch, kibana, logstash, etc.)
+  - name: elastic
+    keyfile: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+    keyring: '/etc/apt/keyrings/elastic.gpg'
+    repo: 'https://artifacts.elastic.co/packages/{{ elastic.version.stack }}/apt stable main'
