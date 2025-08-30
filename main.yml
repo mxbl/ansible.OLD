@@ -32,9 +32,9 @@
     - name: Nvim
       ansible.builtin.include_tasks: tasks/nvim.yml
       tags: nvim
-    # - name: Dotfiles
-    #   ansible.builtin.include_tasks: tasks/dotfiles.yml
-    #   tags: dotfiles
+    - name: Docker
+      ansible.builtin.include_tasks: tasks/docker.yml
+      tags: docker
 
     # X
     - name: Brave
@@ -58,7 +58,6 @@
     # - include: tasks/hacking.yml
     # - include: tasks/mail.yml
     # - include: tasks/nix.yml
-    # - include: tasks/docker.yml
 
     # Old / Unused
     # - include: tasks/ergodox.yml

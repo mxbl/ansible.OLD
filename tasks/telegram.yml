@@ -13,4 +13,4 @@
   ansible.builtin.copy:
     src: /tmp/Telegram/Telegram
     dest: /usr/local/bin/telegram
-    mode: "0755"
+    mode: 0755

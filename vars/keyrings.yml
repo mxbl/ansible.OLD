@@ -24,3 +24,8 @@ keyrings:
     keyfile: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
     keyring: '/etc/apt/keyrings/elastic.gpg'
     repo: 'https://artifacts.elastic.co/packages/{{ elastic.version.stack }}/apt stable main'
+
+  - name: docker
+    keyfile: 'https://download.docker.com/linux/ubuntu/gpg'
+    keyring: '/etc/apt/keyrings/docker.gpg'
+    repo: 'https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable'
