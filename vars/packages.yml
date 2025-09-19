@@ -9,6 +9,7 @@ core_packages:
   - btop
   - curl
   - eza
+  - gocryptfs
 
 x_packages:
   - dmenu
