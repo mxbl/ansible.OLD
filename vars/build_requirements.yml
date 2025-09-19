@@ -3,11 +3,12 @@
 apt_requirements:
   - gnupg
   - software-properties-common
+  - apt-transport-https
+  - curl
 
 nvim_build_requirements_debian:
   - ninja-build
   - gettext
   - cmake
   - unzip
-  - curl
   - build-essential

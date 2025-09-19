@@ -21,5 +21,15 @@
       environment = STNORESTART="1", HOME="/home/mx"
     dest: /etc/supervisor/conf.d/syncthing.conf
     mode: '0644'
-  notify:
-    - Supervisor reload programs
+  # notify:
+  #   - Supervisor reload programs
+
+
+# FIXME: This notify handler using `supervisorctl` does not work. Need to run `systemctl restart supervisor` manually for now.
+
+
+# - name: Supervisor restart syncthing
+#   become: true
+#   community.general.supervisorctl:
+#     name: "program:syncthing"
+#     state: restarted

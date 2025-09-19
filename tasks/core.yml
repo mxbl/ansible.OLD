@@ -57,8 +57,9 @@
 #       register: out
 #       changed_when: "'done' in out.stdout"
 
-- name: Install core tools
+- name: Install core and network tools
+  tags: core
   become: true
   ansible.builtin.package:
-    name: "{{ packages }}"
+    name: "{{ core_packages + net_packages }}"
     state: present
