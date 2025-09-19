@@ -11,6 +11,7 @@
     state: present
 
 - name: Install atuin
+  tags: fish
   block:
     - name: Fetch setup script
       ansible.builtin.get_url:
@@ -36,7 +37,7 @@
     shell: /usr/bin/fish
 
 - name: Setup .config/fish
-  tags: fish_config
+  tags: fish, fish_config
   ansible.builtin.git:
     repo: "git@github.com:mxbl/fish.git"
     dest: "{{ ansible_env.HOME }}/.config/fish"

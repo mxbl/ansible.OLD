@@ -11,11 +11,14 @@
   hosts: localhost
   gather_facts: true
   vars:
+    domain: mx.net
     git_dir: /home/mx/git
   vars_files:
-    - ./vars/build_requirements.yml
-    - ./vars/keyrings.yml
-    - ./vars/packages.yml
+    - vars/build_requirements.yml
+    - vars/keyrings.yml
+    - vars/packages.yml
+    - vars/etc_hosts.yml
+    - vars/ssh_config.yml
   pre_tasks:
     - name: Update package cache
       tags: always

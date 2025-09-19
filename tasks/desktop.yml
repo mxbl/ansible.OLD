@@ -39,10 +39,10 @@
 #   tags:
 #     - fonts
 #     - X
-
-- name: X/fonts - Refresh font cache
-  ansible.builtin.command: fc-cache
-  changed_when: true
-  tags:
-    - fonts
-    - X
+#
+# - name: X/fonts - Refresh font cache
+#   ansible.builtin.command: fc-cache
+#   changed_when: true
+#   tags:
+#     - fonts
+#     - X

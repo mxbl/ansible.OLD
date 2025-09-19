@@ -8,6 +8,7 @@ core_packages:
   - gpg
   - btop
   - curl
+  - eza
 
 x_packages:
   - dmenu
@@ -15,6 +16,8 @@ x_packages:
   - scrot
   - xclip
   - arandr
+  - flameshot
+  - picom
 
 net_packages:
   - nmap

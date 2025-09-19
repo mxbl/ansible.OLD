@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+127.0.0.1 localhost
+127.0.1.1 {{ ansible_hostname }}.{{ domain }} {{ ansible_hostname }}
+
+{% for host in vars['etc.hosts'] %}
+{{ "%-15s %s" | format(host.ip, host.names | join(' ')) }}
+{% endfor -%}

@@ -4,10 +4,12 @@
   tags: core
   become: true
   block:
-    - name: Add GPG keys
-      ansible.builtin.apt_key:
+    - name: Keyring / Add GPG keys
+      ansible.builtin.get_url:
         url: '{{ item.keyfile }}'
-        keyring: '{{ item.keyring }}'
+        dest: '{{ item.keyring }}'
+        mode: 0644
+        force: true
       with_items: "{{ keyrings }}"
 
     - name: Add required apt repository
@@ -21,13 +23,13 @@
       ansible.builtin.package:
         update_cache: true
 
-# - name: Base packages and tools
-#   tags: base
-#   vars:
-#     packages:
-#       - { name: '', key: '' }
-#   block:
-#     - name:
+- name: Generate /etc/hosts
+  tags: core
+  become: true
+  ansible.builtin.template:
+    src: etc_hosts.j2
+    dest: /etc/hosts
+    mode: 0644
 
 - name: Create needed directories
   tags: core
@@ -54,7 +56,6 @@
 #       ansible.builtin.command: locale-gen
 #       register: out
 #       changed_when: "'done' in out.stdout"
-
 
 - name: Install core tools
   become: true

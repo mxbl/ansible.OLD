@@ -4,28 +4,34 @@ elastic:
     stack: 9.x
 
 keyrings:
-  - name: eza
+  - name:    eza
     keyfile: 'https://raw.githubusercontent.com/eza-community/eza/main/deb.asc'
-    keyring: '/etc/apt/keyrings/gierens.gpg'
-    repo: 'http://deb.gierens.de stable main'
-  - name: synthing
+    keyring: '/etc/apt/trusted.gpg.d/gierens.asc'
+    repo:    'http://deb.gierens.de stable main'
+
+  - name:    synthing
     keyfile: 'https://syncthing.net/release-key.gpg'
-    keyring: '/etc/apt/keyrings/syncthing-archive-keyring.gpg'
-    repo: 'https://apt.syncthing.net/ syncthing stable'
+    keyring: '/etc/apt/trusted.gpg.d/syncthing-archive-keyring.asc'
+    repo:    'https://apt.syncthing.net/ syncthing stable'
 
   # keyring for hashicorp packages (terraform, packer, vagrant, etc.)
-  - name: hashicorp
+  - name:    hashicorp
     keyfile: 'https://apt.releases.hashicorp.com/gpg'
-    keyring: '/etc/apt/keyrings/hashicorp-archive-keyring.gpg'
-    repo: 'https://apt.releases.hashicorp.com/ {{ ansible_distribution_release }} stable main'
+    keyring: '/etc/apt/trusted.gpg.d/hashicorp-archive-keyring.asc'
+    repo:    'https://apt.releases.hashicorp.com/ {{ ansible_distribution_release }} stable main'
 
   # keyring for ELK stack packages (elasticsearch, kibana, logstash, etc.)
-  - name: elastic
+  - name:    elastic
     keyfile: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-    keyring: '/etc/apt/keyrings/elastic.gpg'
-    repo: 'https://artifacts.elastic.co/packages/{{ elastic.version.stack }}/apt stable main'
+    keyring: '/etc/apt/trusted.gpg.d/elastic.asc'
+    repo:    'https://artifacts.elastic.co/packages/{{ elastic.version.stack }}/apt stable main'
 
-  - name: docker
-    keyfile: 'https://download.docker.com/linux/ubuntu/gpg'
-    keyring: '/etc/apt/keyrings/docker.gpg'
-    repo: 'https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable'
+  - name:    docker
+    keyfile: 'https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg'
+    keyring: '/etc/apt/trusted.gpg.d/docker.asc'
+    repo:    'https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable'
+
+  - name:    brave
+    keyfile: 'https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg'
+    keyring: '/etc/apt/trusted.gpg.d/brave.asc'
+    repo:    'https://brave-browser-apt-release.s3.brave.com/ stable main'

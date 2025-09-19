@@ -7,30 +7,6 @@
     name: [apt-transport-https, curl]
     state: present
 
-- name: Add Brave GPG key
-  tags: brave
-  become: true
-  ansible.builtin.apt_key:
-    url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    keyring: /etc/apt/keyrings/brave-browser-archive-keyring.gpg
-
-- name: Add Brave apt repository
-  tags: brave
-  become: true
-  ansible.builtin.apt_repository:
-    repo: deb [ signed-by=/etc/apt/keyrings/brave-browser-archive-keyring.gpg arch=amd64 ] https://brave-browser-apt-release.s3.brave.com/ stable main
-    state: present
-
-# - name: Setup Brave apt repository
-#   tags: brave
-#   become: true
-#   ansible.builtin.template:
-#     src: brave.j2
-#     dest: /etc/apt/sources.list.d/brave.list
-#     owner: root
-#     group: root
-#     mode: "644"
-
 - name: Install the latest version of brave browser
   tags: brave
   become: true
