@@ -35,3 +35,8 @@ keyrings:
     keyfile: 'https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg'
     keyring: '/etc/apt/trusted.gpg.d/brave.asc'
     repo:    'https://brave-browser-apt-release.s3.brave.com/ stable main'
+
+  - name:    proxmox
+    keyfile: 'https://enterprise.proxmox.com/debian/proxmox-release-trixie.gpg'
+    keyring: '/etc/apt/trusted.gpg.d/proxmox.asc'
+    repo:    'http://download.proxmox.com/debian/pve trixie pve-no-subscription'
