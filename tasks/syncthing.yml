@@ -26,6 +26,7 @@
 
 
 # FIXME: This notify handler using `supervisorctl` does not work. Need to run `systemctl restart supervisor` manually for now.
+# TODO: write service restart handler for supervisor
 
 
 # - name: Supervisor restart syncthing
