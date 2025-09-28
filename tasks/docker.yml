@@ -24,7 +24,7 @@
   tags:
     - docker
 
-- name: Enable docker buildkit
+- name: Setup docker daemon config
   become: true
   ansible.builtin.copy:
     dest: /etc/docker/daemon.json
@@ -33,6 +33,18 @@
         "features": {
           "buildkit": true
         }
+      }
+    mode: 0644
+  tags:
+    - docker
+
+- name: Setup user local docker config
+  become: true
+  ansible.builtin.copy:
+    dest: "{{ ansible_env.HOME }}/docker/config.json"
+    content: |
+      {
+        "detachKeys": "ctrl-q,ctrl-q"
       }
     mode: 0644
   tags:
