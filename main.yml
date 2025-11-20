@@ -13,6 +13,10 @@
   vars:
     domain: mx.net
     git_dir: /home/mx/git
+    kitty:
+      font_size:
+        cardano: 14
+        s76: 13
   vars_files:
     - vars/build_requirements.yml
     - vars/keyrings.yml
@@ -28,7 +32,7 @@
   tasks:
     - name: Core
       ansible.builtin.include_tasks: tasks/core.yml
-      tags: core
+      tags: core, etc_hosts
     - name: Fish
       ansible.builtin.include_tasks: tasks/fish.yml
       tags: fish

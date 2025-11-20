@@ -24,7 +24,7 @@
         update_cache: true
 
 - name: Generate /etc/hosts
-  tags: core
+  tags: core, etc_hosts
   become: true
   ansible.builtin.template:
     src: etc_hosts.j2

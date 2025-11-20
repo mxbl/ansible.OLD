@@ -19,6 +19,7 @@ x_packages:
   - arandr
   - flameshot
   - picom
+  - kitty
 
 net_packages:
   - nmap

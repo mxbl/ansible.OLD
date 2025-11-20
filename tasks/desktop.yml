@@ -1,11 +1,26 @@
 # vim:ft=yaml.ansible
 ---
 - name: X - Install desktop packages
+  tags: [X]
   become: true
   ansible.builtin.package:
     name: "{{ x_packages }}"
-  tags:
-    - X
+
+- name: X - kitty.conf
+  tags: [X]
+  ansible.builtin.copy:
+    dest: "{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+    content: |
+      # Ctrl+Shift+F5 to reload config
+      font_family JetBrainsMonoNerdFont
+      font_size {{ kitty.font_size[ansible_hostname] | default(13) }}
+      disable_ligatures never
+      cursor #87ff00
+      cursor_shape block
+      background_opacity 0.8
+      map ctrl+enter send_text all \x1b[13;5u
+      map shift+enter send_text all \x1b[13;2u
+    mode: 0644
 
 # - name: X/fonts - Create required directories
 #   ansible.builtin.file:
