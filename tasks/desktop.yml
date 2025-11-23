@@ -14,6 +14,7 @@
       # Ctrl+Shift+F5 to reload config
       font_family JetBrainsMonoNerdFont
       font_size {{ kitty.font_size[ansible_hostname] | default(13) }}
+      enable_audio_bell no
       disable_ligatures never
       cursor #87ff00
       cursor_shape block
